@@ -5,8 +5,8 @@ A comprehensive Flutter app for tracking basketball statistics with live game tr
 ## Features
 
 ### Core Features
-- ✅ **Team Management**: Create and manage multiple teams
-- ✅ **Player Management**: Add players with jersey numbers and positions
+- ✅ **Independent Player Management**: Manage all players in a global pool with optional team assignment.
+- ✅ **Multi-Team Support**: Create and manage multiple teams with individual rosters.
 - ✅ **Live Game Tracking**: Track stats in real-time during games
 - ✅ **Comprehensive Stats**: 
   - Basic: Points, Rebounds, Assists
@@ -102,6 +102,7 @@ lib/
 └── screens/                           # UI screens
     ├── home_screen.dart
     ├── teams_screen.dart
+    ├── players_screen.dart
     ├── team_detail_screen.dart
     ├── games_screen.dart
     ├── live_game_screen.dart

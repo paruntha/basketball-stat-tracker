@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'teams_screen.dart';
+import 'players_screen.dart';
 import 'games_screen.dart';
 import 'stats_screen.dart';
 import 'settings_screen.dart';
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const TeamsScreen(),
+    const PlayersScreen(), // Add this
     const GamesScreen(),
     const StatsScreen(),
     const SettingsScreen(),
@@ -36,6 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationDestination(
             icon: Icon(Icons.groups),
             label: 'Teams',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: 'Players',
           ),
           NavigationDestination(
             icon: Icon(Icons.sports_basketball),

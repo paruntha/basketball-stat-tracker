@@ -29,7 +29,7 @@ Pure data classes with:
 
 **Models:**
 - `Team`: Team information
-- `Player`: Player with jersey number and position
+- `Player`: Player with jersey number and position (Independent Management)
 - `Game`: Game with teams, scores, and status
 - `PlayerStats`: Comprehensive player statistics
 
@@ -84,13 +84,15 @@ Central state manager using Provider pattern:
 ### 4. Screens (`lib/screens/`)
 
 #### Navigation Structure
-```
-HomeScreen (BottomNavigationBar)
-├── TeamsScreen → TeamDetailScreen
-├── GamesScreen → LiveGameScreen
-├── StatsScreen
-└── SettingsScreen
-```
+1. **HomeScreen**: Main dashboard with navigation.
+2. **TeamsScreen**: List and management of all teams.
+3. **TeamFormScreen**: Create or edit team details.
+4. **PlayersScreen**: Management of the global player pool.
+5. **TeamDetailScreen**: Team-specific roster and statistics.
+6. **GamesScreen**: History and scheduled matches.
+7. **LiveGameScreen**: Real-time stat tracking interface.
+8. **StatsScreen**: Analytics and performance charts.
+9. **SettingsScreen**: Data management and cloud sync.
 
 #### LiveGameScreen - The Core Feature
 Real-time stat tracking with:

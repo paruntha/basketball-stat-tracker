@@ -38,11 +38,9 @@ class DataProvider extends ChangeNotifier {
     _games = await _db.getAllGames();
     
     // Load all players
-    _players = [];
-    for (var team in _teams) {
-      final teamPlayers = await _db.getPlayersByTeam(team.id);
-      _players.addAll(teamPlayers);
-    }
+    _players = await _db.getAllPlayers();
+    // For now, sorting happens in DB query or can be done here.
+
 
     // Load all stats
     _stats = [];

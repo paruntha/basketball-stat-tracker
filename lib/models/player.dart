@@ -1,7 +1,7 @@
 class Player {
   final String id;
   final String name;
-  final String teamId;
+  final String? teamId;
   final int jerseyNumber;
   final String position;
   final DateTime createdAt;
@@ -9,7 +9,7 @@ class Player {
   Player({
     required this.id,
     required this.name,
-    required this.teamId,
+    this.teamId,
     required this.jerseyNumber,
     required this.position,
     required this.createdAt,

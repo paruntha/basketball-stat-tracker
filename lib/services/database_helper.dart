@@ -22,10 +22,7 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     if (kIsWeb) {
       // For web, we use the FFI web factory
-      // Note: This requires sqflite_common_ffi_web package
-      // The path is ignored on web, but we pass something
-      var databaseFactory = databaseFactoryFfiWeb;
-      return await databaseFactory.openDatabase(filePath,
+      return databaseFactoryFfiWeb.openDatabase('basketball_stats.db',
           options: OpenDatabaseOptions(
             version: 1,
             onCreate: _createDB,
@@ -64,8 +61,7 @@ class DatabaseHelper {
       CREATE TABLE players (
         id $idType,
         name $textType,
-        team_id $textType,
-        jersey_number $intType,
+        team_id $textType,        jersey_number $intType,
         position $textType,
         created_at $textType,
         FOREIGN KEY (team_id) REFERENCES teams (id) ON DELETE CASCADE
@@ -150,6 +146,12 @@ class DatabaseHelper {
   Future<List<Player>> getPlayersByTeam(String teamId) async {
     final db = await database;
     final result = await db.query('players', where: 'team_id = ?', whereArgs: [teamId], orderBy: 'jersey_number ASC');
+    return result.map((map) => Player.fromMap(map)).toList();
+  }
+
+  Future<List<Player>> getAllPlayers() async {
+    final db = await database;
+    final result = await db.query('players', orderBy: 'name ASC');
     return result.map((map) => Player.fromMap(map)).toList();
   }
 

@@ -7,6 +7,7 @@ A **complete, production-ready Flutter application** for comprehensive basketbal
 ## ✅ All Features Delivered
 
 ### Core Requirements Met
+- ✅ **Independent Player Management** - Global player pool with optional team assignment
 - ✅ **Multiple teams & players** - Full roster management
 - ✅ **Basic stats** - Points, Rebounds, Assists
 - ✅ **Advanced stats** - FG%, 3P%, Steals, Blocks, Turnovers
@@ -19,12 +20,12 @@ A **complete, production-ready Flutter application** for comprehensive basketbal
 
 ## Project Contents
 
-### Code Files (17 Dart files)
+### Code Files (18 Dart files)
 ```
 Models (4):          team.dart, player.dart, game.dart, player_stats.dart
 Services (3):        database_helper.dart, firebase_sync_service.dart, export_service.dart
 Providers (1):       data_provider.dart
-Screens (7):         home, teams, team_detail, games, live_game, stats, settings
+Screens (8):         home, teams, players, team_detail, games, live_game, stats, settings
 Main (1):            main.dart
 Config (1):          firebase_options.dart
 ```
@@ -120,7 +121,7 @@ Teams → Players → PlayerStats ← Games
 
 ## Usage Flow
 
-1. **Setup:** Create teams, add players
+1. **Setup:** Create teams and manage players (assigned or unassigned)
 2. **Game:** Create game, select teams
 3. **Track:** Live stat recording during game
 4. **Analyze:** View trends, charts, statistics
@@ -138,10 +139,10 @@ Already built for easy extension:
 ## Project Stats
 
 - **~3,000 lines** of Dart code
-- **17 source files**
+- **18 source files**
 - **12 dependencies**
 - **4 database tables**
-- **7 UI screens**
+- **8 UI screens**
 - **6 platforms supported**
 
 ## What Makes This Special
