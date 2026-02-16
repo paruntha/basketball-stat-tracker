@@ -1,5 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import '../models/team.dart';
 import '../models/player.dart';
 import '../models/game.dart';
@@ -18,14 +20,27 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
+    if (kIsWeb) {
+      // For web, we use the FFI web factory
+      // Note: This requires sqflite_common_ffi_web package
+      // The path is ignored on web, but we pass something
+      var databaseFactory = databaseFactoryFfiWeb;
+      return await databaseFactory.openDatabase(filePath,
+          options: OpenDatabaseOptions(
+            version: 1,
+            onCreate: _createDB,
+          ));
+    } else {
+      // Mobile/Desktop implementation
+      final dbPath = await getDatabasesPath();
+      final path = join(dbPath, filePath);
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _createDB,
-    );
+      return await openDatabase(
+        path,
+        version: 1,
+        onCreate: _createDB,
+      );
+    }
   }
 
   Future<void> _createDB(Database db, int version) async {

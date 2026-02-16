@@ -16,7 +16,7 @@ A comprehensive Flutter app for tracking basketball statistics with live game tr
 - ✅ **Export**: Export stats to CSV
 - ✅ **Share**: Share player summaries
 - ✅ **Cloud Sync**: Optional Firebase sync across devices
-- ✅ **Offline Support**: Works completely offline with SQLite
+- ✅ **Offline Support**: Works completely offline with SQLite (Native & Web)
 
 ## Prerequisites
 
@@ -72,6 +72,8 @@ flutter run
 flutter run
 
 # For Web
+# Run this once to generate assets:
+dart run sqflite_common_ffi_web:setup
 flutter run -d chrome
 
 # For Desktop (Windows/macOS/Linux)
@@ -243,8 +245,8 @@ flutter run
 - Run `cd ios && pod install`
 
 ### Web
-- Firebase may require additional config
-- Export/share features have limited support
+- Run `dart run sqflite_common_ffi_web:setup` to generate capabilities
+- Firebase works with limited config (offline mode supported)
 
 ## Future Enhancements
 

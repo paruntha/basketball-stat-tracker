@@ -32,6 +32,10 @@ setup.bat
 ```bash
 cd basketball_stat_tracker
 flutter pub get
+
+# For Web Support (REQUIRED for web):
+dart run sqflite_common_ffi_web:setup
+
 flutter run
 ```
 

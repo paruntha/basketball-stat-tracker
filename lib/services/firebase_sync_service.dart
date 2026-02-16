@@ -1,100 +1,185 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import '../models/team.dart';
 import '../models/player.dart';
 import '../models/game.dart';
 import '../models/player_stats.dart';
 
 class FirebaseSyncService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // Use getters to avoid immediate initialization
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
+  FirebaseAuth get _auth => FirebaseAuth.instance;
 
-  String? get userId => _auth.currentUser?.uid;
-  bool get isLoggedIn => _auth.currentUser != null;
+  // Check if Firebase is available
+  bool get isAvailable {
+    try {
+      return Firebase.apps.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  String? get userId {
+    if (!isAvailable) return null;
+    return _auth.currentUser?.uid;
+  }
+
+  bool get isLoggedIn {
+    if (!isAvailable) return false;
+    return _auth.currentUser != null;
+  }
 
   // Anonymous sign in for basic sync
   Future<void> signInAnonymously() async {
+    if (!isAvailable) return;
     if (_auth.currentUser == null) {
       await _auth.signInAnonymously();
     }
   }
 
   Future<void> signOut() async {
+    if (!isAvailable) return;
     await _auth.signOut();
   }
 
   // Get user's collection reference
   CollectionReference _getUserCollection(String collection) {
+    if (!isAvailable) throw Exception('Firebase not initialized');
     if (userId == null) throw Exception('User not logged in');
     return _firestore.collection('users').doc(userId).collection(collection);
   }
 
   // Team sync
   Future<void> syncTeamToCloud(Team team) async {
-    await signInAnonymously();
-    await _getUserCollection('teams').doc(team.id).set(team.toMap());
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('teams').doc(team.id).set(team.toMap());
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   Future<List<Team>> getTeamsFromCloud() async {
-    await signInAnonymously();
-    final snapshot = await _getUserCollection('teams').get();
-    return snapshot.docs.map((doc) => Team.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    if (!isAvailable) return [];
+    try {
+      await signInAnonymously();
+      final snapshot = await _getUserCollection('teams').get();
+      return snapshot.docs.map((doc) => Team.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    } catch (e) {
+      print('Sync error: $e');
+      return [];
+    }
   }
 
   Future<void> deleteTeamFromCloud(String teamId) async {
-    await signInAnonymously();
-    await _getUserCollection('teams').doc(teamId).delete();
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('teams').doc(teamId).delete();
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   // Player sync
   Future<void> syncPlayerToCloud(Player player) async {
-    await signInAnonymously();
-    await _getUserCollection('players').doc(player.id).set(player.toMap());
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('players').doc(player.id).set(player.toMap());
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   Future<List<Player>> getPlayersFromCloud() async {
-    await signInAnonymously();
-    final snapshot = await _getUserCollection('players').get();
-    return snapshot.docs.map((doc) => Player.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    if (!isAvailable) return [];
+    try {
+      await signInAnonymously();
+      final snapshot = await _getUserCollection('players').get();
+      return snapshot.docs.map((doc) => Player.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    } catch (e) {
+      print('Sync error: $e');
+      return [];
+    }
   }
 
   Future<void> deletePlayerFromCloud(String playerId) async {
-    await signInAnonymously();
-    await _getUserCollection('players').doc(playerId).delete();
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('players').doc(playerId).delete();
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   // Game sync
   Future<void> syncGameToCloud(Game game) async {
-    await signInAnonymously();
-    await _getUserCollection('games').doc(game.id).set(game.toMap());
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('games').doc(game.id).set(game.toMap());
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   Future<List<Game>> getGamesFromCloud() async {
-    await signInAnonymously();
-    final snapshot = await _getUserCollection('games').get();
-    return snapshot.docs.map((doc) => Game.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    if (!isAvailable) return [];
+    try {
+      await signInAnonymously();
+      final snapshot = await _getUserCollection('games').get();
+      return snapshot.docs.map((doc) => Game.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    } catch (e) {
+      print('Sync error: $e');
+      return [];
+    }
   }
 
   Future<void> deleteGameFromCloud(String gameId) async {
-    await signInAnonymously();
-    await _getUserCollection('games').doc(gameId).delete();
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('games').doc(gameId).delete();
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   // Player stats sync
   Future<void> syncPlayerStatsToCloud(PlayerStats stats) async {
-    await signInAnonymously();
-    await _getUserCollection('player_stats').doc(stats.id).set(stats.toMap());
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('player_stats').doc(stats.id).set(stats.toMap());
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   Future<List<PlayerStats>> getPlayerStatsFromCloud() async {
-    await signInAnonymously();
-    final snapshot = await _getUserCollection('player_stats').get();
-    return snapshot.docs.map((doc) => PlayerStats.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    if (!isAvailable) return [];
+    try {
+      await signInAnonymously();
+      final snapshot = await _getUserCollection('player_stats').get();
+      return snapshot.docs.map((doc) => PlayerStats.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    } catch (e) {
+      print('Sync error: $e');
+      return [];
+    }
   }
 
   Future<void> deletePlayerStatsFromCloud(String statsId) async {
-    await signInAnonymously();
-    await _getUserCollection('player_stats').doc(statsId).delete();
+    if (!isAvailable) return;
+    try {
+      await signInAnonymously();
+      await _getUserCollection('player_stats').doc(statsId).delete();
+    } catch (e) {
+      print('Sync error: $e');
+    }
   }
 
   // Full sync - push all local data to cloud
@@ -104,6 +189,7 @@ class FirebaseSyncService {
     required List<Game> games,
     required List<PlayerStats> stats,
   }) async {
+    if (!isAvailable) return;
     await signInAnonymously();
     
     // Sync teams
@@ -129,6 +215,13 @@ class FirebaseSyncService {
 
   // Full sync - pull all cloud data
   Future<Map<String, dynamic>> pullAllFromCloud() async {
+    if (!isAvailable) return {
+      'teams': [],
+      'players': [],
+      'games': [],
+      'stats': [],
+    };
+    
     await signInAnonymously();
     
     return {

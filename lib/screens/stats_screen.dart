@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../providers/data_provider.dart';
-import '../models/player.dart';
-import '../models/player_stats.dart';
 import '../services/export_service.dart';
 
 class StatsScreen extends StatefulWidget {
@@ -142,11 +140,11 @@ class _StatsScreenState extends State<StatsScreen> {
 
     final totalFGM = stats.map((s) => s.fieldGoalsMade).reduce((a, b) => a + b);
     final totalFGA = stats.map((s) => s.fieldGoalsAttempted).reduce((a, b) => a + b);
-    final fgPct = totalFGA > 0 ? (totalFGM / totalFGA) * 100 : 0;
+    final fgPct = totalFGA > 0 ? (totalFGM / totalFGA) * 100 : 0.0;
 
     final total3PM = stats.map((s) => s.threePointersMade).reduce((a, b) => a + b);
     final total3PA = stats.map((s) => s.threePointersAttempted).reduce((a, b) => a + b);
-    final threePct = total3PA > 0 ? (total3PM / total3PA) * 100 : 0;
+    final threePct = total3PA > 0 ? (total3PM / total3PA) * 100 : 0.0;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),

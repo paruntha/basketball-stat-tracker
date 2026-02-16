@@ -146,7 +146,11 @@ All shooting percentages calculated on-the-fly:
 Local SQLite ←→ DataProvider ←→ Firebase Firestore
      ↓                                    ↓
    Offline                            Synced
+Local SQLite ←→ DataProvider ←→ Firebase Firestore
+     ↓                                    ↓
+   Offline                            Synced
    Storage                           Across Devices
+(Native/Web WASM)
 ```
 
 ## Performance Considerations
@@ -254,7 +258,8 @@ Use Flutter's `intl` package and add localization
 - `provider`: State management
 
 ### Database
-- `sqflite`: SQLite database
+- `sqflite`: SQLite database (Mobile/Desktop)
+- `sqflite_common_ffi_web`: SQLite for Web (WASM)
 - `path`: File path handling
 
 ### Firebase (Optional)
@@ -295,6 +300,10 @@ Use Flutter's `intl` package and add localization
 - [ ] Configure `Info.plist`
 - [ ] Set up provisioning profiles
 - [ ] Configure App Store metadata
+
+**Web:**
+- [ ] Run `dart run sqflite_common_ffi_web:setup` to generate assets
+- [ ] Configure `firebase_options.dart` for Web
 
 ## Performance Metrics
 
